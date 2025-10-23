@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Links</title>
+  <style>
+    button {
+      margin: 0.5em;
+      padding: 0.6em 1.2em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Copy file link</h2>
+
+  <!-- Example buttons -->
+  <button onclick="copyLink('Bigcung.zip')">Copy link to Bigcung.zip</button>
+  <button onclick="copyLink('TheDailyLauryn.zip')">Copy link to TheDailyLauryn.zip</button>
+
+  <p id="status"></p>
+
+  <script>
+    function copyLink(filename) {
+      // Construct full URL dynamically based on your site’s origin
+      const url = `${window.location.origin}/${filename}`;
+
+      // Copy to clipboard using modern API
+      navigator.clipboard.writeText(url).then(() => {
+        const status = document.getElementById("status");
+        status.textContent = `Copied: ${url}`;
+        setTimeout(() => status.textContent = "", 3000);
+      }).catch(err => {
+        alert("Failed to copy link: " + err);
+      });
+    }
+  </script>
+</body>
+</html>
