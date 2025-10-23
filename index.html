@@ -52,8 +52,9 @@
 
     function copyLink(filename, button) {
       let base = `${window.location.origin}${window.location.pathname.replace(/\/index\.html$/, '')}`;
-      base = base.replace(/\/+$/, ''); // remove trailing slash(es)=
-      const url = `${base}/${filename}`;
+      base = base.replace(/\/+$/, ''); // remove trailing slash(es)
+      const encodedName = encodeURIComponent(filename); // encode the filename for URL safety
+      const url = `${base}/${encodedName}`;
       
       navigator.clipboard.writeText(url).then(() => {
         const status = document.getElementById("status");
