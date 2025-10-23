@@ -26,35 +26,35 @@
   </div>
 
   <script>
-    const files = ["The Chronicles of Jashon.zip"];
-    const fileList = document.getElementById("file-list");
-
-    files.forEach(filename => {
-      // Strip ".zip" for display
-      const displayName = filename.replace(/\.zip$/i, "");
-      
-      const item = document.createElement("div");
-      item.className = "list-group-item d-flex justify-content-between align-items-center";
-
-      const name = document.createElement("span");
-      name.textContent = displayName;
-      name.className = "fw-medium";
-
-      const button = document.createElement("button");
-      button.className = "btn btn-outline-secondary btn-sm";
-      button.innerHTML = '<i class="fa-solid fa-clipboard"></i>';
-      button.onclick = () => copyLink(filename, button);
-
-      item.appendChild(name);
-      item.appendChild(button);
-      fileList.appendChild(item);
+    fetch('files.json')
+      .then(r => r.json())
+      .then(files => {
+        const list = document.getElementById("file-list");
+        files.forEach(filename => {
+          const displayName = filename.replace(/\.zip$/i, "");
+          const item = document.createElement("div");
+          item.className = "list-group-item d-flex justify-content-between align-items-center";
+    
+          const name = document.createElement("span");
+          name.textContent = displayName;
+    
+          const button = document.createElement("button");
+          button.className = "btn btn-outline-secondary btn-sm";
+          button.innerHTML = '<i class="fa-solid fa-clipboard"></i>';
+          button.onclick = () => copyLink(filename, button);
+    
+          item.appendChild(name);
+          item.appendChild(button);
+          list.appendChild(item);
+        });
     });
 
     function copyLink(filename, button) {
+      const subdirectory = "files";
       let base = `${window.location.origin}${window.location.pathname.replace(/\/index\.html$/, '')}`;
-      base = base.replace(/\/+$/, ''); // remove trailing slash(es)
-      const encodedName = encodeURIComponent(filename); // encode the filename for URL safety
-      const url = `${base}/${encodedName}`;
+      base = base.replace(/\/+$/, '');
+      const encodedName = encodeURIComponent(filename);
+      const url = `${base}/${subdirectory}/${encodedName}`;
       
       navigator.clipboard.writeText(url).then(() => {
         const status = document.getElementById("status");
